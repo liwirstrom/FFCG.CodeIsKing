@@ -8,11 +8,11 @@ Meteorologist är ett program som läser väderdata från en .csv som består av
 
 ```
 Exempel output: 
-	The following result is based on temperatures between Saturday, October 28, 2017 11:30:06 AM and Thursday, November 30, 2017 8:55:44 AM
-	The highest temperature was Saturday, October 28, 2017 12:15:44 PM
-	The first time the temperature was subzero was Saturday, October 28, 2017 11:30:08 AM and it was -0.5 degrees.
-	The mean temperature was 2.64285714285714 degrees on Saturday,October 28
-	The mean temperature was 7 degrees on Thursday,November 30
+The following result is based on temperatures between Saturday, October 28, 2017 11:30:06 AM and Thursday, November 30, 2017 8:55:44 AM
+The highest temperature was Saturday, October 28, 2017 12:15:44 PM
+The first time the temperature was subzero was Saturday, October 28, 2017 11:30:08 AM and it was -0.5 degrees.
+The mean temperature was 2.64285714285714 degrees on Saturday,October 28
+The mean temperature was 7 degrees on Thursday,November 30
 ```
 
 ## Utveckling
@@ -32,7 +32,7 @@ Exempel output:
 * Starta programmet och skriv in fullständig filväg och en separator uppdelade med ett ',' emellan.
 ```
 Exempel input: 
-		C:\Users\li.wirstrom\Documents\Code is King\FFCG.CodeIsKing\Meteorologist\src\testTemperatureData.csv,;
+C:\Users\li.wirstrom\Documents\Code is King\FFCG.CodeIsKing\Meteorologist\src\testTemperatureData.csv,;
 ```
 
 ## TODO
