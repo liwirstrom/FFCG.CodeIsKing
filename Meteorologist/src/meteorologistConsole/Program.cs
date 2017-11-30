@@ -5,6 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+/* WeatherData:
+ * C:\Users\li.wirstrom\Documents\Code is King\FFCG.CodeIsKing\Meteorologist\src\WeatherData\temperatureData.csv
+ * Test
+ *  C:\Users\li.wirstrom\Documents\Code is King\FFCG.CodeIsKing\Meteorologist\src\WeatherData\testTemperatureData.csv
+ *  C:\Users\li.wirstrom\Documents\Code is King\FFCG.CodeIsKing\Meteorologist\src\WeatherData\testNoSubZero.csv
+ * */
+
 namespace meteorologistConsole
 {
     class Program
@@ -27,7 +35,7 @@ namespace meteorologistConsole
             weatherResults.ColdestDataEntry = meteorologist.GetColdestTemperature(temperatureList);
 
             Console.WriteLine(weatherResults.GetWeatherResult(temperatureList[0].TimeStamp, temperatureList[temperatureList.Count() - 1].TimeStamp));
-            //Console.WriteLine($"The mean temperature between {temperatureList[0].TimeStamp.ToString("F")} and {temperatureList[temperatureList.Count()-1]} was {mean} degrees");
+           
         }
     }
 }

@@ -62,7 +62,6 @@ namespace MeteorologistLogic
                 string date = temperatureObject.TimeStamp.ToString("dddd,MMMM dd");
                 if (!dateTemperatures.ContainsKey(date))
                 {
-                    //daysInTemperatureList.Add(temperatureObject.TimeStamp.ToString("d"));
                     List<double> temperatures = new List<double>();
                     temperatures.Add(temperatureObject.Temperature);
                     dateTemperatures.Add(date,temperatures);

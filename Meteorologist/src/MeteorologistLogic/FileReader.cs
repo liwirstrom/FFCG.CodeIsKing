@@ -13,24 +13,33 @@ namespace MeteorologistLogic
         {
             var rowNr = 0;
             List<TemperatureData> temperatureList = new List<TemperatureData>();
-            foreach (var line in File.ReadLines(@file))
+            try
             {
 
-                var cleanLine = line.Replace("\"", string.Empty).Trim();
-                var values = cleanLine.Split(separator);
-                if (values.Length == 2 && rowNr > 0)
+                foreach (var line in File.ReadLines(@file))
                 {
-                    TemperatureData temperatureObject = new TemperatureData(values[0], values[1], rowNr);
-                    temperatureList.Add(temperatureObject);
+
+                    var cleanLine = line.Replace("\"", string.Empty).Trim();
+                    var values = cleanLine.Split(separator);
+                    if (values.Length == 2 && rowNr > 0)
+                    {
+                        TemperatureData temperatureObject = new TemperatureData(values[0], values[1], rowNr);
+                        temperatureList.Add(temperatureObject);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Did not create temperature object on row number {rowNr}");
+                    }
+                    rowNr++;
                 }
-                else
-                {
-                    Console.WriteLine($"Did not create temperature object on row number {rowNr}");
-                }
-                rowNr++;
+                List<TemperatureData> SortedTemperatureList = temperatureList.OrderBy(o => o.TimeStamp).ToList();
+                return SortedTemperatureList;
             }
-            List<TemperatureData> SortedTemperatureList = temperatureList.OrderBy(o => o.TimeStamp).ToList();
-            return SortedTemperatureList;
+            catch (FileNotFoundException exception)
+            {
+                Console.WriteLine($"Can not find file. Raised exception {exception}");
+                throw;
+            }
 
         }
     }
