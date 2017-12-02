@@ -14,41 +14,45 @@ namespace MeteorologistLogic
         }
         public TemperatureData GetWarmestTemperature(List<TemperatureData> temperatureList)
         {
-            TemperatureData warmestTemperatureObject = new TemperatureData();
-            double warmestTemperature = 273.15*-1;
-            foreach (var temperatureObject in temperatureList)
-            {
-                if (temperatureObject.Temperature > warmestTemperature)
-                {
-                    warmestTemperature = temperatureObject.Temperature;
-                    warmestTemperatureObject = temperatureObject;
-                }
-            }
+            return temperatureList.OrderByDescending(temperatureObject => temperatureObject.Temperature).FirstOrDefault();
+            //TemperatureData warmestTemperatureObject = new TemperatureData();
+            //double warmestTemperature = 273.15*-1;
+            //foreach (var temperatureObject in temperatureList)
+            //{
+            //    if (temperatureObject.Temperature > warmestTemperature)
+            //    {
+            //        warmestTemperature = temperatureObject.Temperature;
+            //        warmestTemperatureObject = temperatureObject;
+            //    }
+            //}
 
-            return warmestTemperatureObject;
+            //return warmestTemperatureObject;
         }
 
         public TemperatureData GetColdestTemperature(List<TemperatureData> temperatureList)
         {
-            TemperatureData coldestTemperatureObject = new TemperatureData();
-            double coldestTemperature = 739;
-            foreach (var temperatureObject in temperatureList)
-            {
-                if (temperatureObject.Temperature < coldestTemperature)
-                {
-                    coldestTemperature = temperatureObject.Temperature;
-                    coldestTemperatureObject = temperatureObject;
-                }
-            }
-            if (coldestTemperature != 739)
-            {
 
-                return coldestTemperatureObject;
-            }
-            else
-            {
-                return null;
-            }
+            return temperatureList.OrderBy(temperatureObject => temperatureObject.Temperature).FirstOrDefault();
+
+            //TemperatureData coldestTemperatureObject = new TemperatureData();
+            //double coldestTemperature = double.MaxValue;
+            //foreach (var temperatureObject in temperatureList)
+            //{
+            //    if (temperatureObject.Temperature < coldestTemperature)
+            //    {
+            //        coldestTemperature = temperatureObject.Temperature;
+            //        coldestTemperatureObject = temperatureObject;
+            //    }
+            //}
+            //if (coldestTemperature != 739)
+            //{
+
+            //    return coldestTemperatureObject;
+            //}
+            //else
+            //{
+            //    return null;
+            //}
             
         }
 
@@ -75,7 +79,7 @@ namespace MeteorologistLogic
 
             foreach (var meanObject in dateTemperatures)
             {
-                meanValues.Add(meanObject.Key,meanObject.Value.Average());
+                meanValues.Add(meanObject.Key, meanObject.Value.Average());
             }
 
             return meanValues;
