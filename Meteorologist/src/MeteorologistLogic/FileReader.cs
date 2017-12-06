@@ -16,7 +16,7 @@ namespace MeteorologistLogic
             try
             {
 
-                foreach (var line in File.ReadLines(@file))
+                foreach (var line in File.ReadLines(file))
                 {
 
                     var cleanLine = line.Replace("\"", string.Empty).Trim();
@@ -28,6 +28,7 @@ namespace MeteorologistLogic
                     }
                     else
                     {
+                        // TODO write to file? 
                         Console.WriteLine($"Did not create temperature object on row number {rowNr}");
                     }
                     rowNr++;
@@ -37,8 +38,7 @@ namespace MeteorologistLogic
             }
             catch (FileNotFoundException exception)
             {
-                Console.WriteLine($"Can not find file. Raised exception {exception}");
-                throw;
+                throw new FileNotFoundException($"Can not find file. Raised exception {exception}");
             }
 
         }
