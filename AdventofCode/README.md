@@ -1,6 +1,7 @@
 # Advent Of Code 2017
 This project is created to solve [Advent of Code 2017](http://adventofcode.com/2017). 
-> Advent of Code is a series of small programming puzzles for a variety of skill levels.
+> Advent of Code is a series of small programming puzzles for a variety of skill levels. 
+
 Between December 1 - December 25, a puzzle is released each day. When the initial problem is solved, part 2 is then revealed. 
 
 ## Tools
