@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5FA1BFCC-B111-494D-9036-6FFDB33CA68B}</ProjectGuid>
+    <ProjectGuid>{7655ED29-498C-4563-86BE-63A953FC4212}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AdventOfCode_2017_Day6_Test</RootNamespace>
-    <AssemblyName>AdventOfCode_2017_Day6_Test</AssemblyName>
+    <RootNamespace>AdventOfCode_2017_Day7_Test</RootNamespace>
+    <AssemblyName>AdventOfCode_2017_Day7_Test</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -48,7 +48,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Day6_UnitTest.cs" />
+    <Compile Include="Day7_UnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -56,11 +56,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="input.txt" />
+    <Content Include="testInput.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AdventOfCode_2017_Day6\AdventOfCode_2017_Day6.csproj">
-      <Project>{684bb5fd-f773-432b-abff-f0ca700d8056}</Project>
-      <Name>AdventOfCode_2017_Day6</Name>
+    <ProjectReference Include="..\AdventOfCode_2017_Day7\AdventOfCode_2017_Day7.csproj">
+      <Project>{871c2f13-917a-4b76-bfeb-926030d9c3bf}</Project>
+      <Name>AdventOfCode_2017_Day7</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

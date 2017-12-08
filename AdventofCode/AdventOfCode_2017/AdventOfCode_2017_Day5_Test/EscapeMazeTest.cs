@@ -28,7 +28,7 @@ namespace AdventOfCode_2017_Day5_Test
         [TestMethod]
         public void Day5_TestMethod2_part1()
         {
-            List<int> instructions = _fileReader.ReadFile(@"C:\Users\li.wirstrom\Documents\Code is King\FFCG.CodeIsKing\AdventOfCode_2017\AdventOfCode_2017_Day5_Test\input.txt");
+            List<int> instructions = _fileReader.ReadFile(@"C:\Users\li.wirstrom\Documents\Code is King\FFCG.CodeIsKing\AdventofCode\AdventOfCode_2017\AdventOfCode_2017_Day5_Test\input.txt");
             int steps = _escapeMaze.Jump(instructions);
             Assert.AreEqual(315613, steps);
         }
@@ -44,7 +44,7 @@ namespace AdventOfCode_2017_Day5_Test
         [TestMethod]
         public void Day5_TestMethod2_part2()
         {
-            List<int> instructions = _fileReader.ReadFile(@"C:\Users\li.wirstrom\Documents\Code is King\FFCG.CodeIsKing\AdventOfCode_2017\AdventOfCode_2017_Day5_Test\input.txt");
+            List<int> instructions = _fileReader.ReadFile(@"C:\Users\li.wirstrom\Documents\Code is King\FFCG.CodeIsKing\AdventofCode\AdventOfCode_2017\AdventOfCode_2017_Day5_Test\input.txt");
             int steps = _escapeMaze.JumpAndDecreaseAbove2(instructions);
             Assert.AreEqual(22570529, steps);
         }
