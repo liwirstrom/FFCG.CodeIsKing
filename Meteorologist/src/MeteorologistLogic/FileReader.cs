@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using MeteorologistLogic.DataModels;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace MeteorologistLogic
 {
@@ -41,6 +45,26 @@ namespace MeteorologistLogic
                 throw new FileNotFoundException($"Can not find file. Raised exception {exception}");
             }
 
+        }
+
+        public async Task<List<SimpleStation>> ReadAirTempRespons(Task<HttpResponseMessage> responseTask)
+        {
+            List<SimpleStation> simpleStationList = new List<SimpleStation>();
+            var responseMessage = await responseTask;
+            var contentString = await responseMessage.Content.ReadAsStringAsync();
+            var apiModel = JsonConvert.DeserializeObject<LufttemperaturApiSvar>(contentString);
+            foreach (var station in apiModel.station)
+            {
+                var simpleStation = new SimpleStation() {
+                                        Name = station.name,
+                                        Id = station.id,
+                                        Latitude = station.latitude,
+                                        Longitude = station.longitude};
+
+                simpleStationList.Add(simpleStation);
+            }
+
+            return simpleStationList;
         }
     }
 }

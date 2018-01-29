@@ -3,7 +3,8 @@
 Ett repo för att samla projekt från internutbildningen Code is King som trainee på Forefront Consulting.
 
 ## Projekt
-* Reverser (2/11)
-* DiceGame (16/11)
-* Meteorologist (30/11)
+* Reverser (2/11-17)
+* DiceGame (16/11-17)
+* Meteorologist (30/11-17)
 * Advent of Code 2017
+* WeatherApplication (22/01-18)

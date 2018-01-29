@@ -8,6 +8,11 @@ namespace SpiralGridModell
     public class SpiralGridModel
     {
         private List<NumberModel> numberModelsList { get; set; }
+
+        public SpiralGridModel()
+        {
+            numberModelsList = new List<NumberModel>();
+        }
         public NumberModel FindPosition(int finalNumber)
         {
             NumberModel numberModel = new NumberModel();
@@ -163,8 +168,15 @@ namespace SpiralGridModell
                 {
                     if (!(i == number.X_position && j == number.Y_position))
                     {
-                        NumberModel correctNumber = numberModelsList.Where(obj => (obj.X_position == i) && (obj.Y_position == j)).First();
-                        number.Sum += correctNumber.Sum;
+                        if (numberModelsList.Where(obj => (obj.X_position == i) && (obj.Y_position == j)).FirstOrDefault() != null)
+                        {
+                            NumberModel correctNumber = numberModelsList.Where(obj => (obj.X_position == i) && (obj.Y_position == j)).First();
+                            number.Sum += correctNumber.Sum;
+                        }
+                        else
+                        {
+                            number.Sum += 0;
+                        }
                     }
                 }
             }

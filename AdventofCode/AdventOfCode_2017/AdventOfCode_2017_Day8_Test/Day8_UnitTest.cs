@@ -46,6 +46,5 @@ namespace AdventOfCode_2017_Day8_Test
             int highestHeldValue = registry.Where(r => r.Name == "HighestHeldValue").First().Value;
             Assert.AreEqual(4644, highestHeldValue);
         }
-
     }
 }
