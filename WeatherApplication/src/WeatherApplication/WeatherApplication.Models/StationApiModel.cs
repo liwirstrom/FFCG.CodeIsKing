@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WeatherApplication.Logic.DataModel
+namespace WeatherApplication.Models
 {
     public class StationsApiModel
     {

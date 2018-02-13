@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Net.Http;
-using WeatherApplication.Logic.DataModel;
+using WeatherApplication.Data;
+using WeatherApplication.Models;
 
 namespace WeatherApplication.Logic
 {
-    public class DataImporter
+	public class DataImporter
     {
         private static string StationLink = "https://opendata-download-metobs.smhi.se/api/version/latest/parameter/1/station/{stationId}.json";
         private static HttpClient httpClient;
@@ -40,6 +41,15 @@ namespace WeatherApplication.Logic
 
             return simpleStationList;
         }
+
+		public void SaveInLocalDatabaseUsingEF(List<SimpleStation> stationList)
+		{
+			using (var db = new WeatherContext())
+			{
+				db.Stations.AddRange(stationList);
+				db.SaveChanges();
+			}
+		}
 
 		public void SaveInLocalDatabase(List<SimpleStation> stationList)
 		{

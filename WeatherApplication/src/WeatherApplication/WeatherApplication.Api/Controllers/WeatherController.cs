@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Net.Http;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace WeatherApplication.Api.Controllers
 {
