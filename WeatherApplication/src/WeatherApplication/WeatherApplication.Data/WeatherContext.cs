@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 using WeatherApplication.Models;
 
 namespace WeatherApplication.Data
@@ -7,8 +8,7 @@ namespace WeatherApplication.Data
     {
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseSqlServer(
-				@"Server=(localdb)\MSSQLLocalDB;Initial Catalog=WeatherAPI;Integrated Security=SSPI;Trusted_Connection=yes;");
+			optionsBuilder.UseSqlServer(@"Server = (localdb)\MSSQLLocalDB; Initial Catalog = WeatherAPI; Integrated Security = SSPI; Trusted_Connection = yes;");
 		}
 
 		public DbSet<SimpleStation> Stations { get; set; }

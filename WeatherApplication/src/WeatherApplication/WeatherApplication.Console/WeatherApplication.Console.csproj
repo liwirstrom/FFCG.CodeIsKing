@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\WeatherApplication.Logic\WeatherApplication.Logic.csproj" />
   </ItemGroup>
 
