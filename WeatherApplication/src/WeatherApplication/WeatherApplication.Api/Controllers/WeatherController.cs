@@ -1,56 +1,125 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Net.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using WeatherApplication.Logic.DataModel;
 
 namespace WeatherApplication.Api.Controllers
 {
-    public class StationViewModel
+	public class SimpleStationViewModel
     {
         public string Id { get; set; }
         public string Name { get; set; }
+
+		public static SimpleStationViewModel Create(IDataReader reader)
+		{
+			return new SimpleStationViewModel
+			{
+				Id = reader.GetProperty("id"),
+				Name = reader.GetProperty("name")
+			};
+		}
     }
 
-    [Route("api/[controller]")]
-    public class WeatherController : Controller
-    {
-        [HttpGet]
-        public List<StationViewModel> Get()
-        {
-            string path = @"C:\Users\li.wirstrom\Documents\Code is King\FFCG.CodeIsKing\WeatherApplication\src\Data\stations.json";
+	public interface IDataReader
+	{
+		string GetProperty(string name);
+	}
 
-            var simpleStationJson = System.IO.File.ReadAllText(path);
+	public class SqlDataReaderWrapper : IDataReader
+	{
+		public SqlDataReaderWrapper(SqlDataReader dataReader)
+		{
+			_dataReader = dataReader;
+		}
 
-            var simpleStations = JsonConvert.DeserializeObject<List<SimpleStation>>(simpleStationJson);
+		private SqlDataReader _dataReader { get; }
 
-            var viewStations = new List<StationViewModel>();
+		public string GetProperty(string name)
+		{
+			return _dataReader[name].ToString();
+		}
+	}
 
-            foreach (var simpleStation in simpleStations)
-            {
-                viewStations.Add(new StationViewModel()
-                {
-                    Id = simpleStation.Id,
-                    Name = simpleStation.Name
-                });
-            }
+	public class StationViewModel
+	{
+		public string Id { get; set; }
+		public string Name { get; set; }
+		public float Latitude { get; set; }
+		public float Longitude { get; set; }
+		public float Altitude { get; set; }
 
-            return viewStations;
-        }
+		public static StationViewModel Create(IDataReader reader)
+		{
+			return new StationViewModel
+			{
+				Id = reader.GetProperty("id"),
+				Name = reader.GetProperty("name"),
+				Latitude = float.Parse(reader.GetProperty("latitude")),
+				Longitude = float.Parse(reader.GetProperty("longitude")),
+				Altitude = float.Parse(reader.GetProperty("altitude")),
+			};
+		}
+	}
 
-        [HttpGet("{id}")]
-        public SimpleStation Get(string id)
-        {
-            string path = @"C:\Users\li.wirstrom\Documents\Code is King\FFCG.CodeIsKing\WeatherApplication\src\Data\stations.json";
+	[Route("api/[controller]")]
+	public class WeatherController : Controller
+	{
+		private string ConnectionString = @"Server=(localdb)\MSSQLLocalDB;Initial Catalog=WeatherAPI;Integrated Security=SSPI;Trusted_Connection=yes;";
 
-            var json = System.IO.File.ReadAllText(path);
+		[HttpGet]
+		public IActionResult Get()
+		{
+			SqlConnection Connection = new SqlConnection(ConnectionString);
+			Connection.Open();
+			var command = Connection.CreateCommand();
+			command.CommandText = "SELECT ID, Name FROM Stations ORDER BY Name";
+			var reader = command.ExecuteReader();
 
-            var stations = JsonConvert.DeserializeObject<List<SimpleStation>>(json);
+			var viewStations = new List<SimpleStationViewModel>();
 
-            return stations.FirstOrDefault(x => x.Id == id);
-        }
-    }
+			var dataReaderWrapper = new SqlDataReaderWrapper(reader);
+
+			while (reader.Read())
+			{
+				
+				var weatherStation = SimpleStationViewModel.Create(dataReaderWrapper);
+
+				viewStations.Add(weatherStation);
+			}
+
+			return Ok(viewStations);
+		}
+
+		[HttpGet("{id}")]
+		public IActionResult Get(string id)
+		{
+			try
+			{
+				var Connection = new SqlConnection(@"Server=(localdb)\MSSQLLocalDB;Initial Catalog=WeatherAPI;Integrated Security=SSPI;Trusted_Connection=yes;");
+				Connection.Open();
+				var command = Connection.CreateCommand();
+				command.CommandText = "SELECT * FROM Stations WHERE Id = @IdParam ";
+
+				var param = new SqlParameter();
+				param.ParameterName = "@IdParam";
+				param.Value = id;
+				command.Parameters.Add(param);
+
+				var reader = command.ExecuteReader();
+				reader.Read();
+				var dataReaderWrapper = new SqlDataReaderWrapper(reader);
+				var weatherStation = StationViewModel.Create(dataReaderWrapper);
+
+				return Ok(weatherStation);
+
+			}
+			catch (System.Exception e)
+			{
+				return NotFound();
+			}
+		}
+
+	}
 }

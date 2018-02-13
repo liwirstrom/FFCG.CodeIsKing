@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Net.Http;
 using WeatherApplication.Logic.DataModel;
 
@@ -40,6 +41,37 @@ namespace WeatherApplication.Logic
             return simpleStationList;
         }
 
-        
-    }
+		public void SaveInLocalDatabase(List<SimpleStation> stationList)
+		{
+			var conncectionString = @"Server=(localdb)\MSSQLLocalDB;Initial Catalog=WeatherAPI;Integrated Security=SSPI;Trusted_Connection=yes;";
+			var connection = new SqlConnection(conncectionString);
+			connection.Open();
+			int i = 0;
+			foreach (var station in stationList)
+			{
+				var command = connection.CreateCommand();
+				command.CommandText = $"INSERT INTO Stations VALUES (" +
+										$"'{station.Id}', '{station.Name}', " +
+										$"{station.Longitude.ToString().Replace(",", ".")}, " +
+										$"{station.Latitude.ToString().Replace(",", ".")}, " +
+										$"{station.Altitude.ToString().Replace(",", ".")});";
+
+				command.ExecuteNonQuery();
+				i++;
+				var progress = (decimal)i / stationList.Count;
+
+				Console.Write($"\r{progress:P}");
+			}
+
+
+				//"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+		}
+
+		public void SaveInLocalTextFile(List<SimpleStation> stationList, string filename)
+		{
+			var stationJsonArray = JsonConvert.SerializeObject(stationList);
+			System.IO.File.WriteAllText(filename, stationJsonArray);
+		}
+
+	}
 }

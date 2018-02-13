@@ -11,9 +11,8 @@ namespace WeatherApplication.Console
 
             var dataImporter = new DataImporter();
             var stationList = dataImporter.CreateSimpleStationList("https://opendata-download-metobs.smhi.se/api/version/latest/parameter/1.json");
-            var stationJsonArray = JsonConvert.SerializeObject(stationList);
-            System.IO.File.WriteAllText(@"C:\Users\li.wirstrom\Documents\Code is King\FFCG.CodeIsKing\WeatherApplication\src\Data\stations.json", stationJsonArray);
-
-        }
+			//dataImporter.SaveInLocalTextFile(stationList, @"C:\Users\li.wirstrom\Documents\Code is King\FFCG.CodeIsKing\WeatherApplication\src\Data\stations.json");
+			dataImporter.SaveInLocalDatabase(stationList);
+		}
     }
 }
