@@ -108,7 +108,6 @@
       <DependentUpon>20180213142627_1.0.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\WeatherContextModelSnapshot.cs" />
-    <Compile Include="WeatherContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

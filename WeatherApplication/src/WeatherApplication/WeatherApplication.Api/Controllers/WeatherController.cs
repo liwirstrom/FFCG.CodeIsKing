@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using WeatherApplication.Data;
 using WeatherApplication.Models;
 
 namespace WeatherApplication.Api.Controllers
@@ -10,14 +7,18 @@ namespace WeatherApplication.Api.Controllers
 	[Route("api/[controller]")]
 	public class WeatherController : Controller
 	{
+
+		private readonly IWeatherStationRepository _repository;
+
+		public WeatherController(IWeatherStationRepository repository)
+		{
+			_repository = repository;
+		}
+
 		[HttpGet]
 		public IActionResult Get()
 		{
-			using (var context = new WeatherContext())
-			{
-				List<SimpleStation> viewStations = context.Stations.OrderBy(o => o.Name).ToList();
-				return Ok(viewStations);
-			}
+			return Ok(_repository.All().OrderBy(x => x.Name).ToList());
 		}
 
 		[HttpGet("{id}")]
@@ -25,11 +26,7 @@ namespace WeatherApplication.Api.Controllers
 		{
 			try
 			{
-				using (var context = new WeatherContext())
-				{
-					var station = context.Stations.First(x => x.Id == id);
-					return Ok(station);
-				}
+				return Ok(_repository.Load(id));
 			}
 			catch (System.Exception e)
 			{

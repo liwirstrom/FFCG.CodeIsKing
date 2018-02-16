@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Net.Http;
-using WeatherApplication.Data;
 using WeatherApplication.Models;
 
 namespace WeatherApplication.Logic
@@ -44,11 +43,11 @@ namespace WeatherApplication.Logic
 
 		public void SaveInLocalDatabaseUsingEF(List<SimpleStation> stationList)
 		{
-			using (var db = new WeatherContext())
-			{
-				db.Stations.AddRange(stationList);
-				db.SaveChanges();
-			}
+			//using (var db = new WeatherContext())
+			//{
+			//	db.Stations.AddRange(stationList);
+			//	db.SaveChanges();
+			//}
 		}
 
 		public void SaveInLocalDatabase(List<SimpleStation> stationList)

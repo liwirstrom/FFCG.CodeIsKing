@@ -102,10 +102,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WeatherApplication.Data\WeatherApplication.Data.csproj">
-      <Project>{b75a1746-c9fd-47ee-ad5b-c21df303eb4a}</Project>
-      <Name>WeatherApplication.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WeatherApplication.Models\WeatherApplication.Models.csproj">
       <Project>{CA9130E5-AEEA-4466-9C20-8985D74FC8F8}</Project>
       <Name>WeatherApplication.Models</Name>
