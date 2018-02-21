@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WeatherApplication.Models
+﻿namespace WeatherApplication.Models
 {
-    public class StationsApiModel
+	public class StationsApiModel
     {
         public Link[] link { get; set; }
         public Station[] station { get; set; }

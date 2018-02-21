@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WeatherApplication.Models
+﻿namespace WeatherApplication.Models
 {
-    public class SimpleStation
+	public class SimpleStation
     {
         public string Name { get; set; }
         public string Id { get; set; }

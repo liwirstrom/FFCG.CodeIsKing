@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WeatherApplication.Models
+﻿namespace WeatherApplication.Models
 {
-    public interface IStationImportService
+	public interface IStationImportService
     {
 		void SaveAll();
     }
