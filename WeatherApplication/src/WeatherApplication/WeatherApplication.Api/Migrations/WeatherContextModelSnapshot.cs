@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
-using WeatherApplication.Data;
+using WeatherApplication.Api.Data;
 
-namespace WeatherApplication.Data.Migrations
+namespace WeatherApplication.Api.Migrations
 {
     [DbContext(typeof(WeatherContext))]
     partial class WeatherContextModelSnapshot : ModelSnapshot

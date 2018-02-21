@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
-using WeatherApplication.Data;
+using WeatherApplication.Api.Data;
 
-namespace WeatherApplication.Data.Migrations
+namespace WeatherApplication.Api.Migrations
 {
     [DbContext(typeof(WeatherContext))]
-    [Migration("20180213142627_1.0")]
+    [Migration("20180216155450_1.0")]
     partial class _10
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -28,7 +28,7 @@ namespace WeatherApplication.Api.Controllers
 			{
 				return Ok(_repository.Load(id));
 			}
-			catch (System.Exception e)
+			catch (System.Exception)
 			{
 				return NotFound();
 			}

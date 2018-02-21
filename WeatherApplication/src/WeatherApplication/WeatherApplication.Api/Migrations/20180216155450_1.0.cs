@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace WeatherApplication.Data.Migrations
+namespace WeatherApplication.Api.Migrations
 {
     public partial class _10 : Migration
     {
