@@ -1,7 +1,8 @@
 ﻿namespace WeatherApplication.Models
 {
-	public interface IStationImportService
+	public interface IWeatherImportService
     {
-		void SaveAll();
+		void SaveAllStations();
+		void SaveHistoricalAirTemperatures(string line);
     }
 }

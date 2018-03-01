@@ -1,17 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Net.Http;
-using WeatherApplication.Api.Data;
 using WeatherApplication.Models;
 
 namespace WeatherApplication.Api.Import
 {
 	[Route("api/import/smhi/stations")]
 	public class ImportSmhiController : Controller
-    {
-		private readonly IStationImportService _importService;
-		public ImportSmhiController(IStationImportService importService)
+	{
+		private readonly IWeatherImportService _importService;
+		public ImportSmhiController(IWeatherImportService importService)
 		{
 			_importService = importService;
 		}
@@ -21,7 +17,7 @@ namespace WeatherApplication.Api.Import
 		{
 			try
 			{
-				_importService.SaveAll();
+				_importService.SaveAllStations();
 				return Ok("Import complete");
 			}
 			catch (System.Exception)
@@ -30,5 +26,21 @@ namespace WeatherApplication.Api.Import
 				return StatusCode(503);
 			}
 		}
+
+		[Route("{stationdId}/temperature")]
+		[HttpPost]
+		public IActionResult PostHistoricalData(string station)
+		{
+			try
+			{
+				_importService.SaveHistoricalAirTemperatures(station);
+				return Ok($"Saved air temperatures for station with id {station}");
+			}
+			catch (System.Exception)
+			{
+
+				return StatusCode(503);
+			}
+		} 
 	}
 }

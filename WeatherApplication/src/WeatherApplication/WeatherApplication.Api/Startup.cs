@@ -27,7 +27,7 @@ namespace WeatherApplication.Api
 
 			services.AddSingleton<IAppSettings>(new AppSettings(Configuration));
 			services.AddScoped<IWeatherStationRepository, WeatherStationRepository>();
-			services.AddScoped<IStationImportService, SmhiImportService>();
+			services.AddScoped<IWeatherImportService, SmhiWeatherImportService>();
 			services.AddMvc();
         }
 
