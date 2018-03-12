@@ -6,11 +6,12 @@ En väderapplikation för att hämta lufttemperaturer för olika väderstationer
 - Utvecklingsmiljö : VisualStudio 2017
 - EntityFramework 
 - .Net Core 2.0
+- LocalDB
 
 ## Endpoints
 
 **GET**
-- `http://localhost:5000/api/weather/` : List alla stations
+- `http://localhost:5000/api/weather/` : Lista alla väderstationer
 - `http://localhost:5000/api/weather/{stationId}` : Visar detaljerad information för en viss station med inskickat id
 - `http://localhost:5000/api/weather/{stationId}/temperatures/` : Visar 50 senaste temperaturmätningarna för 
 - `http://localhost:5000/api/weather/{stationId}/temperatures/{datum}` : Visar temperaturmätningar för ett specifikt datum för en viss station. Datumformatet är 'yy-MM-dd'
