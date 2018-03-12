@@ -1,4 +1,6 @@
-﻿namespace WeatherApplication.Models
+﻿using System.Collections.Generic;
+
+namespace WeatherApplication.Models
 {
 	public class SimpleStation
     {
@@ -7,5 +9,6 @@
         public float Latitude { get; set; }
         public float Longitude { get; set; }
         public float Altitude { get; set; }
-    }
+	    public virtual ICollection<TemperatureData> Temperatures { get; set; }
+	}
 }

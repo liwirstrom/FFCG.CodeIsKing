@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WeatherApplication.Models
 {
@@ -8,5 +10,6 @@ namespace WeatherApplication.Models
 		public double AirTemperature { get; set; }
 		public string Quality { get; set; }
 		public string StationId { get; set; }
+		public SimpleStation Station { get; set; }
 	}
 }

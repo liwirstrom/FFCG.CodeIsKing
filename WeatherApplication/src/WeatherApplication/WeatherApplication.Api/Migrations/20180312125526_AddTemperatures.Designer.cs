@@ -10,9 +10,10 @@ using WeatherApplication.Api.Data;
 namespace WeatherApplication.Api.Migrations
 {
     [DbContext(typeof(WeatherContext))]
-    partial class WeatherContextModelSnapshot : ModelSnapshot
+    [Migration("20180312125526_AddTemperatures")]
+    partial class AddTemperatures
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

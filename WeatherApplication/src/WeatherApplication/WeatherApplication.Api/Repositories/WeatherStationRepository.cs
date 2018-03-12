@@ -18,6 +18,24 @@ namespace WeatherApplication.Api.Repositories
 			return _db.Stations.ToList();
 		}
 
+		public IEnumerable<TemperatureData> GetTemperaturesByStationId(string id, int page = 1, int pageSize = 50)
+		{
+
+			return _db.Temperatures
+				.Where(t => t.StationId == id)
+				.OrderByDescending(t => t.Date)
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.ToList();
+		}
+
+		public IEnumerable<TemperatureData> GetSpecificTemperatureByStation(string id, string date)
+		{
+			return _db.Temperatures
+				.Where(t => t.StationId == id && t.Date.ToString("yy-MM-dd") == date)
+				.ToList();
+		}
+
 		public SimpleStation Load(string id)
 		{
 			return _db.Stations.FirstOrDefault(x => x.Id == id);
