@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{727035DB-9069-4D96-874E-28042CC45B2E}</ProjectGuid>
+    <ProjectGuid>{DC04E267-5139-42B4-90D3-BAEFFE552C95}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Day2_Tests</RootNamespace>
-    <AssemblyName>Day2_Tests</AssemblyName>
+    <RootNamespace>AdventofCode_2015_Day3_Tests</RootNamespace>
+    <AssemblyName>AdventofCode_2015_Day3_Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -49,20 +49,20 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Day2_WrappingPaper_Unit_tests.cs" />
+    <Compile Include="Day3_PresentDelivery_Unittest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AdventofCode_2015_Day3\AdventofCode_2015_Day3.csproj">
+      <Project>{bf0dc78b-1a4d-498f-ac1e-acf781372cc9}</Project>
+      <Name>AdventofCode_2015_Day3</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{9690d391-e142-4f3f-8aac-a36048fc794e}</Project>
       <Name>Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Day2_WrappingPaperProblem\AdventofCode_2015_Day2.csproj">
-      <Project>{ea735dda-df21-4092-8fe1-a8cbc4a1c839}</Project>
-      <Name>AdventofCode_2015_Day2</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

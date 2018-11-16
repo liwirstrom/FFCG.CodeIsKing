@@ -61,8 +61,7 @@ namespace Day1_tests
         [TestMethod]
         public void Answer_input_part1()
         {
-            var input = _fileReader.ReadFile(
-                @"C:\Users\se-liwirs-01\Documents\FFCG.CodeIsKing\AdventofCode\AdventofCode_2015\AdventofCode_2015\input.txt");
+            var input = _fileReader.ReadFile("../../../input.txt");
             var floor = _day1FloorCalculator.GetFloor(input[0][0]);
 
             Assert.AreEqual(280, floor);
@@ -88,8 +87,7 @@ namespace Day1_tests
         [TestMethod]
         public void Answer_input_part2()
         {
-            var input = _fileReader.ReadFile(
-                @"C:\Users\se-liwirs-01\Documents\FFCG.CodeIsKing\AdventofCode\AdventofCode_2015\AdventofCode_2015\input.txt");
+            var input = _fileReader.ReadFile("../../../input.txt");
             var index = _day1FloorCalculator.GetFirstBasementCharacter(input[0][0]);
 
             Assert.AreEqual(1797, index);
