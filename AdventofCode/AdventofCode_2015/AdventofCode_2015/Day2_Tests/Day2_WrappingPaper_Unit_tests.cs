@@ -65,13 +65,29 @@ namespace Day2_Tests
             var amount = 0;
             var dimensions = inputsize.Select(int.Parse).ToList();
 
-            amount += 2 * dimensions[0] * dimensions[1];
-            amount += 2 * dimensions[0] * dimensions[2];
-            amount += 2 * dimensions[1] * dimensions[2];
+            //amount += 2 * dimensions[0] * dimensions[1];
+            //amount += 2 * dimensions[0] * dimensions[2];
+            //amount += 2 * dimensions[1] * dimensions[2];
 
-            amount += GetSmallestSide(dimensions);
+            //amount += GetSmallestSide(dimensions);
 
-            return amount;
+	        var sideAreas = new List<int>();
+	        sideAreas.Add(dimensions[0] * dimensions[1]);
+	        sideAreas.Add(dimensions[0] * dimensions[2]);
+			sideAreas.Add(dimensions[1] * dimensions[2]);
+
+			sideAreas.Sort();
+
+	        foreach (var sideArea in sideAreas)
+	        {
+		        amount += sideArea * 2;
+	        }
+
+	        sideAreas.Sort();
+
+	        amount += sideAreas[0];
+
+			return amount;
         }
 
         private int GetSmallestSide(List<int> dimensions)
