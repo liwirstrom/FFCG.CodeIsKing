@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="NaughtyOrNiceUnittests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SantasList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
