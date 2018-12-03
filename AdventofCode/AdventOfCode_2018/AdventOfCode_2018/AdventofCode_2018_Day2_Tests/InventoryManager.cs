@@ -14,14 +14,12 @@ namespace AdventofCode_2018_Day2_Tests
                 var triplets = 0;
                 foreach (var id in input)
                 {
-                    var duplicate = HasDuplicate(id);
-                    var triplet = HasTriplet(id);
-                    if (duplicate)
+                    if (HasDuplicate(id))
                     {
                         duplicates++;
                     }
 
-                    if (triplet)
+                    if (HasTriplet(id))
                     {
                         triplets++;
                     }
@@ -38,14 +36,14 @@ namespace AdventofCode_2018_Day2_Tests
                 {
                     for (int i = 0; i <= input.Count - 2; i++)
                     {
-                        var comparative1 = input[i];
+                        var id1 = input[i];
 
                         for (int j = 0; j <= input.Count - 1; j++)
                         {
-                            var comparative2 = input[j];
-                            if (HasOneUncommon(comparative1, comparative2))
+                            var id2 = input[j];
+                            if (HasOneUncommon(id1, id2))
                             {
-                                commonChars = RemoveUniqueChar(comparative1, comparative2);
+                                commonChars = RemoveUniqueChar(id1, id2);
                                 foundMostSimilar = true;
                                 break;
                             }
@@ -89,15 +87,13 @@ namespace AdventofCode_2018_Day2_Tests
 
             private bool HasDuplicate(string input)
             {
-                bool hasDuplicate = input.GroupBy(c => c).Any(c => c.Count<char>() == 2);
-                return hasDuplicate;
+                return input.GroupBy(c => c).Any(c => c.Count<char>() == 2);
             }
 
             private bool HasTriplet(string input)
             {
-                var hasTriplet = input.GroupBy(c => c).Any(c => c.Count<char>() == 3);
+                return input.GroupBy(c => c).Any(c => c.Count<char>() == 3);
 
-                return hasTriplet;
             }
 
         }
