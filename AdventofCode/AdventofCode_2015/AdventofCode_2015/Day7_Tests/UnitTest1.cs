@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -38,15 +40,26 @@ namespace Day7_Tests
         [TestMethod]
         public void Should_execute_OR_part1()
         {
-            var instructions = new List<string>();
+            var instructions = new List<string>{"123 -> x", "456 -> y", "x OR y -> e"};
             var wireDictionary = _bitwiseAssembler.ExecuteInstructions(instructions);
+            Assert.IsTrue(wireDictionary.ContainsKey("e"));
+            Assert.AreEqual(507, wireDictionary["e"]);
         }
 
         [TestMethod]
-        public void Should_execute_Shift_part1()
+        public void Should_execute_LShift_part1()
         {
-            var instructions = new List<string>();
+            var instructions = new List<string> { "123 -> x", "x LSHIFT 2 -> f" };
             var wireDictionary = _bitwiseAssembler.ExecuteInstructions(instructions);
+            Assert.AreEqual(492, wireDictionary["f"]);
+        }
+
+        [TestMethod]
+        public void Should_execute_RShift_part1()
+        {
+            var instructions = new List<string> { "456 -> y","y RSHIFT 2 -> g" };
+            var wireDictionary = _bitwiseAssembler.ExecuteInstructions(instructions);
+            Assert.AreEqual(114, wireDictionary["g"]);
         }
 
         [TestMethod]
@@ -58,106 +71,152 @@ namespace Day7_Tests
             Assert.IsTrue(wireDictionary.ContainsKey("d"));
             Assert.AreEqual(72, wireDictionary["d"]);
         }
+
+
+        [TestMethod]
+        public void Answer_input_part1()
+        {
+            var instructions = File.ReadAllLines("../../../Day7_input.txt").ToList();
+            var wireDictionary = _bitwiseAssembler.ExecuteInstructions(instructions);
+            Assert.AreEqual(46065, wireDictionary["a"]);
+        }
+
+        [TestMethod]
+        public void Answer_input_part2()
+        {
+            var instructions = File.ReadAllLines("../../../Day7_input.txt").ToList();
+            var wireDictionary = _bitwiseAssembler.ExecuteInstructions(instructions);
+
+            for (int i = 0; i < instructions.Count; i++)
+            {
+                if (instructions[i].EndsWith("-> b"))
+                {
+                    instructions[i] = $"{wireDictionary["a"]} -> b";
+                }
+            }
+            wireDictionary = _bitwiseAssembler.ExecuteInstructions(instructions);
+            Assert.AreEqual(14134, wireDictionary["a"]);
+        }
+
     }
 
     public class BitwiseAssembler
     {
-        private Dictionary<string,int> _wireDictionary;
+        private Dictionary<string,ushort> _wireDictionary;
 
-        public BitwiseAssembler()
+        public Dictionary<string, ushort> ExecuteInstructions(List<string> instructions)
         {
-            _wireDictionary = new Dictionary<string, int>();
-        }
+            _wireDictionary = new Dictionary<string, ushort>();
 
-        public Dictionary<string, int> ExecuteInstructions(List<string> instructions)
-        {
-
-
-            foreach (var instruction in instructions)
+            bool allDone = false;
+            while (!allDone)
             {
-                var splitInstructions = instruction.Split(' ');
+                allDone = true;
 
-                if (splitInstructions.Contains("NOT"))
+                foreach (var instruction in instructions)
                 {
-                    var fromwire = splitInstructions[1];
-                    var toWire = splitInstructions[3];
-                    int signal;
-                    if (_wireDictionary.ContainsKey(fromwire))
+                    var splitInstructions = instruction.Split(' ');
+                    var toWire = splitInstructions[splitInstructions.Length - 1];
+                    ushort wire1, wire2;
+                    if (splitInstructions.Contains("NOT"))
                     {
-                       signal = ~_wireDictionary[fromwire];
-                    }
-                    else
-                    {
-                        signal = ~0;
-                    }
-
-                    SetValue(toWire, signal);
-                     
-                }
-
-                else if (splitInstructions.Contains("AND"))
-                {
-
-
-                    if (int.TryParse(splitInstructions[0], out var firstValue))
-                    {
-                        if (int.TryParse(splitInstructions[0], out var lastValue))
+                        if (GetValue(splitInstructions[1], out wire1))
                         {
-                            
+                            _wireDictionary[toWire] = (ushort) (int) (~wire1);
+                        }
+                        else
+                        {
+                            allDone = false;
+                        }
+                    }
+
+                    else if (splitInstructions.Contains("AND"))
+                    {
+                        if (GetValue(splitInstructions[0], out wire1) && GetValue(splitInstructions[2], out wire2))
+                        {
+                            _wireDictionary[toWire] = (ushort) (wire1 & wire2);
+                        }
+                        else
+                        {
+                            allDone = false;
+                        }
+                    }
+
+                    else if (splitInstructions.Contains("OR"))
+                    {
+
+                        if (GetValue(splitInstructions[0], out wire1) && GetValue(splitInstructions[2], out wire2))
+                        {
+                            _wireDictionary[toWire] = (ushort) (wire1 | wire2);
+                        }
+                        else
+                        {
+                            allDone = false;
+                        }
+                    }
+
+                    else if (splitInstructions.Contains("LSHIFT"))
+                    {
+                        if (GetValue(splitInstructions[0], out wire1))
+                        {
+                            _wireDictionary[toWire] = (ushort) (wire1 << ushort.Parse(splitInstructions[2]));
+                        }
+                        else
+                        {
+                            allDone = false;
+                        }
+
+                    }
+
+                    else if (splitInstructions.Contains("RSHIFT"))
+                    {
+                        if (GetValue(splitInstructions[0], out wire1))
+                        {
+                            _wireDictionary[toWire] = (ushort) (wire1 >> ushort.Parse(splitInstructions[2]));
+                        }
+                        else
+                        {
+                            allDone = false;
                         }
                     }
 
                     else
                     {
-                        firstValue = GetValue(splitInstructions[0]);
 
+                        if (GetValue(splitInstructions[0], out wire1))
+                        {
+                            _wireDictionary[toWire] = wire1;
+                        }
+                        else
+                        {
+                            allDone = false;
+                        }
                     }
-                }
 
-                else if (splitInstructions.Contains("OR"))
-                {
 
                 }
-
-                else
-                {
-                    if (int.TryParse(splitInstructions[0], out var signal))
-                    {
-                        SetValue(splitInstructions[2], signal);
-                    }
-                    else
-                    {
-                        signal = GetValue(splitInstructions[0]);
-                        SetValue(splitInstructions[2], signal);
-                    }
-                }
-
-
             }
 
             return _wireDictionary;
         }
 
-        private void SetValue(string toWire, int signal)
+        private bool GetValue(string identifier, out ushort value)
         {
-            if (_wireDictionary.ContainsKey(toWire))
+            value = 0;
+            if (ushort.TryParse(identifier, out value))
             {
-                _wireDictionary[toWire] = signal;
+                return true;
+            }
+            else if (_wireDictionary.ContainsKey(identifier))
+            {
+                value = (ushort)_wireDictionary[identifier];
+                return true;
             }
             else
             {
-                _wireDictionary.Add(toWire, signal);
+                return false;
             }
-        }
-
-        private int GetValue(string fromWire)
-        {
-            if (_wireDictionary.ContainsKey(fromWire))
-            {
-                return _wireDictionary[fromWire];
-            }
-
-            return 0;
         }
     }
+
 }
