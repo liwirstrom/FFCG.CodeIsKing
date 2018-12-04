@@ -2,27 +2,9 @@
 {
     public class Frame
     {
-		public int FirstRoll { get; protected set; }
-		public int SecondRoll { get; protected set; }
+		public int FirstRoll { get;  set; }
+		public int SecondRoll { get; set; }
 		public Frame NextFrame { get; set; }
-
-		public Frame()
-		{
-			FirstRoll = -1;
-			SecondRoll = -1;
-		}
-
-		public virtual void NewRoll(int points)
-		{
-			if (FirstRoll == -1)
-			{
-				FirstRoll = points;
-			}
-			else
-			{
-				SecondRoll = points;
-			}
-		}
 
 		public virtual int GetTotalPoints()
 		{

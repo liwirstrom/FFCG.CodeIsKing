@@ -2,23 +2,8 @@
 {
     public class TenthFrame: Frame
     {
-		public int ThirdRoll { get; protected set; }
-
-		public override void NewRoll(int points)
-		{
-			if (FirstRoll == -1)
-			{
-				FirstRoll = points;
-			}
-			else if (SecondRoll == -1)
-			{
-				SecondRoll = points;
-			}
-			else
-			{
-				ThirdRoll = points;
-			}
-		}
+		public int ThirdRoll { get; set; }
+		
 
 		public override int GetTotalPoints()
 		{
