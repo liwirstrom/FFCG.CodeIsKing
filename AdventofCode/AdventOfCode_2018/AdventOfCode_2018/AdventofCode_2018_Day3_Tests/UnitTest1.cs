@@ -43,7 +43,7 @@ namespace AdventofCode_2018_Day3_Tests
 				elfClaims.Add(new ElfClaim(claim));   
 		    }
 
-		    var overlap = _claimCalculator.GetOverlap(elfClaims);
+		    var overlap = _claimCalculator.GetOverlap(elfClaims).Count(c => c.Value > 1);
 
 			Assert.AreEqual(4, overlap);
 	    }
@@ -61,28 +61,67 @@ namespace AdventofCode_2018_Day3_Tests
 			    elfClaims.Add(new ElfClaim(claim));
 		    }
 
-		    var overlap = _claimCalculator.GetOverlap(elfClaims);
+		    var overlap = _claimCalculator.GetOverlap(elfClaims).Count(c => c.Value > 1);
 
-		    Assert.AreEqual(4, overlap);
+		    Assert.AreEqual(111266, overlap);
+	    }
+
+		[TestMethod]
+	    public void Should_Be_Intact ()
+	    {
+		    var input = new List<string> { "#1 @ 1,3: 4x4", "#2 @ 3,1: 4x4", "#3 @ 5,5: 2x2" };
+
+		    var elfClaims = new List<ElfClaim>();
+
+		    foreach (var claim in input)
+		    {
+			    elfClaims.Add(new ElfClaim(claim));
+		    }
+
+		    var overlapDictionary = _claimCalculator.GetOverlap(elfClaims);
+
+		    int intact = _claimCalculator.FindIntact(elfClaims, overlapDictionary);
+
+		    Assert.AreEqual(3, intact );
+	    }
+
+	    [TestMethod]
+	    public void Answer_Input_part2()
+	    {
+			//var input = new List<string> { "#1 @ 1,3: 4x4", "#2 @ 3,1: 4x4", "#3 @ 5,5: 2x2" };
+		    var input = File.ReadAllLines("../../Day3_input.txt");
+
+			var elfClaims = new List<ElfClaim>();
+
+		    foreach (var claim in input)
+		    {
+			    elfClaims.Add(new ElfClaim(claim));
+		    }
+
+		    var overlapDictionary = _claimCalculator.GetOverlap(elfClaims);
+
+		    int intact = _claimCalculator.FindIntact(elfClaims, overlapDictionary);
+
+		    Assert.AreEqual(266, intact);
 	    }
 
 	}
 
 	public class ClaimCalculator
 	{
-		public int GetOverlap(List<ElfClaim> elfClaims)
+		public Dictionary<string, int> GetOverlap(List<ElfClaim> elfClaims)
 		{
 			var claimedFabric = new Dictionary<string, int>();
 			var overlap = 0;
 			foreach (var elfClaim in elfClaims)
 			{
 				var startX = elfClaim.Coordinate.X;
-				for (int i = startX; i <= startX+elfClaim.Height; i++)
+				for (int i = 0; i < elfClaim.Height; i++)
 				{
 					var startY = elfClaim.Coordinate.Y;
-					for (int j = startY; j <= startY+elfClaim.Width; j++)
+					for (int j = 0; j < elfClaim.Width; j++)
 					{
-						var key = $"{i},{j}";
+						var key = $"{startX+i},{startY+j}";
 						if (claimedFabric.ContainsKey(key))
 						{
 							claimedFabric[key] += 1;
@@ -95,8 +134,39 @@ namespace AdventofCode_2018_Day3_Tests
 				}
 			}
 
-			return claimedFabric.Count(c => c.Value > 1);
+			return claimedFabric;
 			
+		}
+
+		public int FindIntact(List<ElfClaim> elfClaims, Dictionary<string, int> claimedFabric)
+		{
+			var claimId = 0;
+
+			foreach (var elfClaim in elfClaims)
+			{
+				var intact = true;
+
+				var startX = elfClaim.Coordinate.X;
+				for (int i = 0; i < elfClaim.Height; i++)
+				{
+					var startY = elfClaim.Coordinate.Y;
+					for (int j = 0; j < elfClaim.Width; j++)
+					{
+						var key = $"{startX + i},{startY + j}";
+						if (claimedFabric[key] > 1)
+						{
+							intact = false;
+						}
+					}
+				}
+
+				if (intact)
+				{
+					claimId = elfClaim.Id;
+				}
+			}
+
+			return claimId;
 		}
 	}
 
