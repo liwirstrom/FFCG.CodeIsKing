@@ -16,9 +16,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventofCode_2018_Day3_Tests", "AdventofCode_2018_Day3_Tests\AdventofCode_2018_Day3_Tests.csproj", "{19E09218-AB8D-42D9-9010-7CC39996DEC3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Day4", "Day4", "{F8FD5C2C-8B1B-4E04-939D-6335D90DCF89}"
-	ProjectSection(SolutionItems) = preProject
-		Day4_Tests\Day4_input.txt = Day4_Tests\Day4_input.txt
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day4_Tests", "Day4_Tests\Day4_Tests.csproj", "{F2A7A847-D2BB-4BC4-B056-18A15786E8D1}"
 EndProject
