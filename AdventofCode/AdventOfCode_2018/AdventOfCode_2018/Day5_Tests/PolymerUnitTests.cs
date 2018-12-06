@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Day5_Tests
 {
 	[TestClass]
-	public class UnitTest1
+	public class PolymerUnitTests
 	{
 		private PolymerCalculator _polymerCalculator;
 		[TestInitialize]
