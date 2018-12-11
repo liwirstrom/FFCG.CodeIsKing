@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tuple = System.Tuple;
 
 namespace Day6_Tests
 {
@@ -20,42 +17,6 @@ namespace Day6_Tests
 			_coordinator = new Coordinator();
 		}
 
-		[TestMethod]
-		public void Should_Find_Area()
-		{
-		    var point1 = new Coordinate { X = 1, Y = 6 };
-		    var point2 = new Coordinate { X = 3, Y = 4 };
-
-            var closestCoordinates = new List<(int, Coordinate)>{(2,point1)};
-
-		    var area = _coordinator.GetArea(closestCoordinates, point2);
-
-            Assert.AreEqual(3, area);
-
-		}
-
-
-	    [TestMethod]
-	    public void Should_Find_Closest_Coordinates()
-	    {
-	        var input = File.ReadAllLines("../../Unittest_input.txt").ToList();
-	        var coordinates = new List<Coordinate>();
-	        var maxArea = 0;
-	        foreach (var i in input)
-	        {
-	            var coordinate = new Coordinate();
-	            coordinate.X = Convert.ToInt32(i.Split(',')[0]);
-	            coordinate.Y = Convert.ToInt32(i.Split(',')[1]);
-	            coordinates.Add(coordinate);
-	        }
-
-	        var closestCoordinates = _coordinator.GetClosestCoordinates(coordinates, new Coordinate { X = 3, Y = 4 });
-            Assert.IsTrue(closestCoordinates.Any(c => c.Item2.X == 1 && c.Item2.X == 1));
-            //Assert.IsTrue(closestCoordinates.Any(c => c.Item2.X == 1 && c.Item2.X == 6));
-            //Assert.IsTrue(closestCoordinates.Any(c => c.Item2.X == 8 && c.Item2.X == 3));
-            //Assert.IsTrue(closestCoordinates.Any(c => c.Item2.X == 5 && c.Item2.X == 5));
-
-        }
 
 	    [TestMethod]
 	    public void Should_Be_Area_17()
@@ -71,18 +32,14 @@ namespace Day6_Tests
 	            coordinates.Add(coordinate);
 	        }
 
-	        var point = new Coordinate {X = 3, Y = 4};
+	        var area = _coordinator.GetArea(coordinates);
 
-
-            var closestCoordinates = _coordinator.GetClosestCoordinates(coordinates, point);
-
-	        var area = _coordinator.GetArea(closestCoordinates, point);
-
-            Assert.AreEqual(17,area);
+	        Assert.AreEqual(17, area);
 
 	    }
 
-	    [TestMethod]
+
+        [TestMethod]
 	    public void Should_Calculate_Manhattan_Distance()
 	    {
 	        var point1 = new Coordinate {X = 1, Y = 6};
@@ -91,7 +48,7 @@ namespace Day6_Tests
 	        var distance = _coordinator.CalculateManhattanDistance(point1, point2);
 	        var distanceSamePoint = _coordinator.CalculateManhattanDistance(point1, point1);
 
-	        Assert.AreEqual(2, distance);
+	        Assert.AreEqual(4, distance);
 	        Assert.AreEqual(0, distanceSamePoint);
 
 	    }
@@ -101,20 +58,56 @@ namespace Day6_Tests
 	    {
 	        var input = File.ReadAllLines("../../Unittest_input.txt").ToList();
 
-	        var area = _coordinator.GetBiggestArea(input);
+	        var coordinates = _coordinator.GetCoordinates(input);
+
+	        var area = _coordinator.GetArea(coordinates);
 
 	        Assert.AreEqual(17, area);
-
 	    }
 
+	    [TestMethod]
+	    public void Answer_input_part1()
+	    {
+	        var input = File.ReadAllLines("../../Day6_input.txt").ToList();
+
+	        var coordinates = _coordinator.GetCoordinates(input);
+
+            var area = _coordinator.GetArea(coordinates);
+
+	        Assert.AreEqual(3260, area);
+	    }
+
+	    [TestMethod]
+	    public void Should_Find_Region()
+	    {
+	        var input = File.ReadAllLines("../../Unittest_input.txt").ToList();
+
+	        var coordinates = _coordinator.GetCoordinates(input);
+
+	        var area = _coordinator.GetRegion(coordinates, 32);
+
+	        Assert.AreEqual(16, area);
+	    }
+
+
+	    [TestMethod]
+	    public void Answer_input_part2()
+	    {
+	        var input = File.ReadAllLines("../../Day6_input.txt").ToList();
+
+	        var coordinates = _coordinator.GetCoordinates(input);
+
+	        var area = _coordinator.GetRegion(coordinates, 10000);
+
+	        Assert.AreEqual(42535, area);
+	    }
     }
 
-	public class Coordinator
+    public class Coordinator
 	{
-		public int GetBiggestArea(List<string> input)
+		public List<Coordinate> GetCoordinates(List<string> input)
 		{
             var coordinates = new List<Coordinate>();
-		    var maxArea = 0;
 		    foreach (var i in input)
 		    {
                 var coordinate = new Coordinate();
@@ -123,106 +116,108 @@ namespace Day6_Tests
                 coordinates.Add(coordinate);
 		    }
 
-		    for (int i = 0; i < coordinates.Count; i++)
-		    {
-		        if (coordinates.Any(c => c.X > coordinates[i].X) 
-		            && coordinates.Any(c => c.X < coordinates[i].X)
-		            && coordinates.Any(c => c.Y > coordinates[i].Y)
-                    && coordinates.Any(c => c.X > coordinates[i].X)
-                    )
-		        {
-		            var closestCoordinates = GetClosestCoordinates(coordinates, coordinates[i]);
-		            var area = GetArea(closestCoordinates, coordinates[i]);
-		            if (area > maxArea)
-		            {
-		                maxArea = area+1;
-		            }
-		        }
-		    }
-
-		    return maxArea;
+		    return coordinates;
 		}
 
-	    public int GetArea(List<(int, Coordinate)> closestCoordinates, Coordinate coordinate)
+	    public int GetArea(List<Coordinate> allCoordinates)
 	    {
-	        var area = 0;
+	        var minX = allCoordinates.Min(coord => coord.X) -1;
+	        var maxX = allCoordinates.Max(coord => coord.X) +1;
+	        var minY = allCoordinates.Min(coord => coord.Y) -1;
+	        var maxY = allCoordinates.Max(coord => coord.Y) +1;
 
-	        foreach (var point in closestCoordinates)
+	        var area = new int[allCoordinates.Count];
+
+	        foreach (var x in Enumerable.Range(minX, maxX - minX + 1))
 	        {
-	            var startX = coordinate.X < point.Item2.X ? coordinate.X : point.Item2.X;
-	            for (int i = 0; i <= Math.Abs(point.Item2.X - coordinate.X); i++)
+	            foreach (var y in Enumerable.Range(minY, maxY - minX + 1))
 	            {
-	                var startY = coordinate.Y <= point.Item2.Y ? coordinate.Y : point.Item2.Y;
-	                for (int j = 0; j < Math.Abs(point.Item2.Y - coordinate.Y); j++)
-	                {
-	                    var middlePoint = new Coordinate { X = startX + i, Y = startY + j };
-	                    if (CalculateManhattanDistance(middlePoint, coordinate) < CalculateManhattanDistance(middlePoint, point.Item2))
-	                    {
-	                        area += 1;
-	                    }
-                    }
-                }
-            }
+                    var middlePoint = new Coordinate{X = x, Y = y};
+	                var d = allCoordinates.Select(coord => CalculateManhattanDistance(middlePoint, coord)).Min();
+	                var closest = Enumerable.Range(0, allCoordinates.Count).Where(i => CalculateManhattanDistance(middlePoint, allCoordinates[i]) == d).ToArray();
 
-	        return area;
+	                if (closest.Length != 1)
+	                {
+	                    continue;
+	                }
+
+	                if (x == minX || x == maxX || y == minY || y == maxY)
+	                {
+	                    foreach (var icoord in closest)
+	                    {
+	                        if (area[icoord] != -1)
+	                        {
+	                            area[icoord] = -1;
+	                        }
+	                    }
+	                }
+	                else
+	                {
+	                    foreach (var icoord in closest)
+	                    {
+	                        if (area[icoord] != -1)
+	                        {
+	                            area[icoord]++;
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	        return area.Max();
 	    }
 
-	    //public int GetArea(List<(int, Coordinate)> closestCoordinates, Coordinate coordinate)
-	    //{
-	    //    var area = 0;
 
-	    //    foreach (var point in closestCoordinates)
-	    //    {
-	    //        var startX = coordinate.X;
-	    //        for (int i = 0; i < ; i++)
-	    //        {
-	    //            var startY = coordinate.Y;
-	    //            for (int j = 0; j < Math.Abs(point.Item2.Y - startY); j++)
-	    //            {
-	    //                var middlePoint = new Coordinate {X = point.Item2.X + i, Y = point.Item2.Y + j};
+	    public int GetRegion(List<Coordinate> allCoordinates, int limit)
+	    {
+            //var region = 0;
 
-	    //                if (GetManhattanDistance(middlePoint, coordinate)) < GetManhattanDistance(middlePoint, point.Item2))
-	    //                {
+            //var minX = allCoordinates.Min(coord => coord.X);
+            //var maxX = allCoordinates.Max(coord => coord.X);
+            //var minY = allCoordinates.Min(coord => coord.Y);
+            //var maxY = allCoordinates.Max(coord => coord.Y);
 
-	    //                }
-	    //            }
-	    //        }
-	    //    }
-	    //    return area;
-	    //}
+            //for (int x = minX; x <= (maxX - minX) +1 ; x++)
+            //{
+            //    for (int y = minY; y <= (maxY - minY) + 1; y++)
+            //    {
+            //        var middlePoint = new Coordinate {X = x, Y = y};
+            //        var sumDistance = 0;
+            //        foreach (var coordinate in allCoordinates)
+            //        {
+            //            sumDistance += CalculateManhattanDistance(middlePoint, coordinate);
+            //        }
 
+            //        if (sumDistance < limit) { 
+            //            region++;
+            //        }
+	        //    }
+	        //}
 
+	        //   return region;
+	        var minX = allCoordinates.Min(coord => coord.X) - 1;
+	        var maxX = allCoordinates.Max(coord => coord.X) + 1;
+	        var minY = allCoordinates.Min(coord => coord.Y) - 1;
+	        var maxY = allCoordinates.Max(coord => coord.Y) + 1;
 
-	    public List<(int,Coordinate)> GetClosestCoordinates(List<Coordinate> coordinates,Coordinate coordinate)
-		{
-            var distances = new List<(int, Coordinate)>();
-		    var area = 0;
+	        var area = 0;
 
-		    //coordinates.Remove(coordinate);
-		    foreach (var c in coordinates)
-		    {
-		        if (c != coordinate)
-		        {
-		            int distance = CalculateManhattanDistance(c, coordinate);
-		            if (distance != 0)
-		            {
-		                distances.Add((distance, c));
-                    }
-                    
-		        }
-            }
-
-		    distances = distances.OrderBy(d => d.Item1).ToList();
-
-		    return distances.Take(4).ToList();
-		}
+	        foreach (var x in Enumerable.Range(minX, maxX - minX + 1))
+	        {
+	            foreach (var y in Enumerable.Range(minY, maxY - minX + 1))
+	            {
+	                var middlePoint = new Coordinate { X = x, Y = y };
+                    var d = allCoordinates.Select(coord => CalculateManhattanDistance(middlePoint, coord)).Sum();
+	                if (d < 10000)
+	                    area++;
+	            }
+	        }
+	        return area;
+        }
 
 	    public int CalculateManhattanDistance(Coordinate coordinate1, Coordinate coordinate2)
 	    {
-	        decimal distance = (Math.Abs(coordinate1.X - coordinate2.X) + Math.Abs(coordinate1.Y - coordinate2.Y)) / 2;
-            return Convert.ToInt32(Math.Floor(distance));
-
-        }
+	        return Math.Abs(coordinate1.X - coordinate2.X) + Math.Abs(coordinate1.Y - coordinate2.Y);
+	    }
 
 	}
 

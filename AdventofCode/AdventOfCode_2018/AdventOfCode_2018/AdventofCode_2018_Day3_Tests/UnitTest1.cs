@@ -112,7 +112,6 @@ namespace AdventofCode_2018_Day3_Tests
 		public Dictionary<string, int> GetOverlap(List<ElfClaim> elfClaims)
 		{
 			var claimedFabric = new Dictionary<string, int>();
-			var overlap = 0;
 			foreach (var elfClaim in elfClaims)
 			{
 				var startX = elfClaim.Coordinate.X;
