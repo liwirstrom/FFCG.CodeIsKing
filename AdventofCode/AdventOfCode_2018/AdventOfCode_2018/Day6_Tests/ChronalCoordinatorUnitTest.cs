@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -169,50 +168,33 @@ namespace Day6_Tests
 
 	    public int GetRegion(List<Coordinate> allCoordinates, int limit)
 	    {
-            //var region = 0;
+			var region = 0;
 
-            //var minX = allCoordinates.Min(coord => coord.X);
-            //var maxX = allCoordinates.Max(coord => coord.X);
-            //var minY = allCoordinates.Min(coord => coord.Y);
-            //var maxY = allCoordinates.Max(coord => coord.Y);
+			var minX = allCoordinates.Min(coord => coord.X);
+			var maxX = allCoordinates.Max(coord => coord.X);
+			var minY = allCoordinates.Min(coord => coord.Y);
+			var maxY = allCoordinates.Max(coord => coord.Y);
 
-            //for (int x = minX; x <= (maxX - minX) +1 ; x++)
-            //{
-            //    for (int y = minY; y <= (maxY - minY) + 1; y++)
-            //    {
-            //        var middlePoint = new Coordinate {X = x, Y = y};
-            //        var sumDistance = 0;
-            //        foreach (var coordinate in allCoordinates)
-            //        {
-            //            sumDistance += CalculateManhattanDistance(middlePoint, coordinate);
-            //        }
+			for (int x = minX; x <= maxX; x++)
+			{
+				for (int y = minY; y <= maxX + 1; y++)
+				{
+					var middlePoint = new Coordinate { X = x, Y = y };
+					var sumDistance = 0;
+					foreach (var coordinate in allCoordinates)
+					{
+						sumDistance += CalculateManhattanDistance(middlePoint, coordinate);
+					}
 
-            //        if (sumDistance < limit) { 
-            //            region++;
-            //        }
-	        //    }
-	        //}
+					if (sumDistance < limit)
+					{
+						region++;
+					}
+				}
+			}
 
-	        //   return region;
-	        var minX = allCoordinates.Min(coord => coord.X) - 1;
-	        var maxX = allCoordinates.Max(coord => coord.X) + 1;
-	        var minY = allCoordinates.Min(coord => coord.Y) - 1;
-	        var maxY = allCoordinates.Max(coord => coord.Y) + 1;
-
-	        var area = 0;
-
-	        foreach (var x in Enumerable.Range(minX, maxX - minX + 1))
-	        {
-	            foreach (var y in Enumerable.Range(minY, maxY - minX + 1))
-	            {
-	                var middlePoint = new Coordinate { X = x, Y = y };
-                    var d = allCoordinates.Select(coord => CalculateManhattanDistance(middlePoint, coord)).Sum();
-	                if (d < 10000)
-	                    area++;
-	            }
-	        }
-	        return area;
-        }
+			return region;
+		}
 
 	    public int CalculateManhattanDistance(Coordinate coordinate1, Coordinate coordinate2)
 	    {
